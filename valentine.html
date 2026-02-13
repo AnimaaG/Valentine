@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>My Valentine 💕</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+
+<style>
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+height:100vh;
+overflow:hidden;
+font-family:'Poppins',sans-serif;
+color:white;
+text-align:center;
+}
+
+/* Background Slideshow */
+.bg{
+position:fixed;
+width:100%;
+height:100%;
+background-size:cover;
+background-position:center;
+filter:blur(0px) brightness(100%);
+transition:background-image 2s ease-in-out;
+animation:slide 18s infinite;
+z-index:-1;
+}
+
+.card{
+background:rgba(0,0,0,0.35);
+padding:30px 40px;
+border-radius:25px;
+backdrop-filter:blur(4px);
+box-shadow:0 0 30px rgba(255,105,180,.6);
+}
+
+
+@keyframes slide{
+0%{background-image:url('photo1.jpg');}
+33%{background-image:url('photo2.jpg');}
+66%{background-image:url('photo3.jpg');}
+100%{background-image:url('photo1.jpg');}
+}
+
+.container{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+}
+
+h1,h2{
+margin-bottom:25px;
+font-weight:600;
+text-shadow:0 0 15px hotpink,0 0 5px black;
+}
+
+button{
+padding:14px 30px;
+font-size:20px;
+border:none;
+border-radius:30px;
+margin:10px;
+cursor:pointer;
+background:linear-gradient(45deg,#ff2d6f,#ff6fa1);
+color:white;
+box-shadow:0 0 20px hotpink;
+}
+
+button:hover{transform:scale(1.1);}
+
+.hidden{display:none;}
+
+input{
+padding:12px;
+border-radius:25px;
+border:none;
+font-size:18px;
+text-align:center;
+}
+
+.popup{
+position:fixed;
+background:white;
+color:#ff2d6f;
+padding:25px;
+border-radius:30px;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+box-shadow:0 0 25px pink;
+font-size:22px;
+}
+
+.heart{
+position:absolute;
+bottom:-20px;
+font-size:20px;
+animation:float 6s linear infinite;
+opacity:.8;
+}
+
+@keyframes float{
+0%{transform:translateY(0);}
+100%{transform:translateY(-110vh);}
+}
+
+.final img{
+width:280px;
+border-radius:20px;
+box-shadow:0 0 30px white;
+margin-top:20px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="bg"></div>
+
+<div class="container card">
+
+<div id="screen1">
+<h1>Will you be my Valentine? 💕</h1>
+<button id="yes">YES</button>
+<button id="no">NO</button>
+</div>
+
+<div id="dateQ" class="hidden">
+<h2>When did we first meet? 💖</h2>
+<div id="dates"></div>
+</div>
+
+<div id="songQ" class="hidden">
+<h2>What song we sing together? 🎵</h2>
+<input id="songInput"><br><br>
+<button onclick="checkSong()">Submit</button>
+</div>
+
+<div id="chapterQ" class="hidden">
+<h2>In SAMSARA book which no chapter you are reading currently, check inside the bookm you find something special ? 📖</h2>
+<div id="chapters"></div>
+</div>
+
+<div id="final" class="hidden final">
+<h1>You are my Valentine 💕</h1>
+<p>Something special for you… Check your fridge ❤️</p>
+<img src="photo3.jpg">
+</div>
+
+</div>
+
+<div id="popup" class="popup hidden"></div>
+
+<script>
+
+/* Floating Hearts */
+function hearts(){
+let h=document.createElement("div");
+h.className="heart";
+h.innerHTML="❤️";
+h.style.left=Math.random()*100+"%";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),6000);
+}
+setInterval(hearts,300);
+
+/* Valentine Flow */
+let yesCount=0;
+
+yes.onclick=()=>{
+yesCount++;
+yes.style.position="relative";
+yes.style.left=(Math.random()*200-100)+"px";
+yes.style.top=(Math.random()*200-100)+"px";
+if(yesCount>=2){
+show("Wait… this is not easy 😏");
+setTimeout(()=>{
+hide();
+screen1.style.display="none";
+showDates();
+},1500);
+}
+};
+
+function show(m){
+popup.innerHTML=m;
+popup.classList.remove("hidden");
+}
+function hide(){popup.classList.add("hidden");}
+
+function showDates(){
+dateQ.classList.remove("hidden");
+let arr=["21 Dec 2018","14 Feb 2019","05 Jan 2018","11 Nov 2017"];
+arr.sort(()=>Math.random()-0.5);
+arr.forEach(x=>{
+let b=document.createElement("button");
+b.innerText=x;
+b.onclick=()=>checkDate(x,b);
+dates.appendChild(b);
+});
+}
+
+function checkDate(v,b){
+if(v=="21 Dec 2018"){
+dateQ.style.display="none";
+show("You remember 😊");
+setTimeout(()=>{hide();songQ.classList.remove("hidden");},1200);
+}else{
+b.style.position="relative";
+b.style.left=(Math.random()*200-100)+"px";
+show("You forgot 😢");
+setTimeout(hide,900);
+}
+}
+
+let songTry=0;
+function checkSong(){
+songTry++;
+let v=songInput.value.toLowerCase();
+let c="kaho na pyar he";
+let m=0;
+c.split(" ").forEach(w=>{if(v.includes(w))m++;});
+if(m>=2){
+songQ.style.display="none";
+show("You remember 😊");
+setTimeout(()=>{hide();showChapters();},1200);
+}else{
+show("You forgot 😢");
+setTimeout(hide,900);
+if(songTry>=2){
+document.body.innerHTML="<h1 style='color:white'>💔</h1>";
+}
+}
+}
+
+function showChapters(){
+chapterQ.classList.remove("hidden");
+let n=[28,19,32,11];
+n.sort(()=>Math.random()-0.5);
+n.forEach(x=>{
+let b=document.createElement("button");
+b.innerText=x;
+b.onclick=()=>checkChapter(x,b);
+chapters.appendChild(b);
+});
+}
+
+function checkChapter(v,b){
+if(v==28){
+chapterQ.style.display="none";
+final.classList.remove("hidden");
+}else{
+b.style.position="relative";
+b.style.left=(Math.random()*200-100)+"px";
+show("You forgot 😢");
+setTimeout(hide,900);
+}
+}
+
+</script>
+
+</body>
+</html>
