@@ -122,6 +122,9 @@ margin-top:20px;
 </head>
 
 <body>
+<audio id="bgm" loop>
+<source src="music.mp3" type="audio/mpeg">
+</audio>
 
 <div class="bg"></div>
 
@@ -176,6 +179,9 @@ setInterval(hearts,300);
 let yesCount=0;
 
 yes.onclick=()=>{
+document.getElementById("bgm").play();
+bgm.volume=0.5;
+bgm.play();
 yesCount++;
 yes.style.position="relative";
 yes.style.left=(Math.random()*200-100)+"px";
@@ -269,4 +275,5 @@ setTimeout(hide,900);
 
 </body>
 </html>
+
 
